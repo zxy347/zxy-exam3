@@ -1,0 +1,44 @@
+#!/bin/bash
+cleanup() {
+echo "..."
+for file in plum-*.MP3; do
+if [ -f "$file" ]; then
+rm -f "$file"
+echo "delete:$file"
+fi 
+done
+echo "wancheng"
+exit 0
+}
+trap cleanup SIGINT SIGTERM EXIT
+if [ $# -ne 1 ]; then
+echo "error"
+read -r -n 1
+exit 1
+fi
+if ! [[ $1 =~ ^[1-9][0-9]*$ ]]; then
+echo "error"
+read -r -n 1
+exit 1
+fi
+n=$1
+echo "zhaoxiaouyun will create $n files"
+if [ ! -d "zxygit" ]; then
+mkdir -p zxygit
+fi
+cd zxygit || exit 1
+max_files=3
+for i in $(seq 1 $max_files); do
+filename="plum-$i.MP3"
+if [ -f "$filename" ]; then
+touch "$filename"
+else
+echo "cunzai:$filename"
+fi
+done
+echo "zhaoxiaoyun fin"
+echo "new_listed:"
+ls -la plum-*.MP3 2>/dev/null || echo "no_files"
+date '+%Y-%m-%d %H:%M:%S'
+read -r -n 1
+cleanuo
