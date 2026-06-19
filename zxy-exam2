@@ -1,0 +1,67 @@
+#!/bin/bash
+clear
+validate_student_id() {
+local id="$1"
+if [[ "$id" =~ ^[Zz][0-9]{8}$ ]] || [[ "$id" =~ ^[0-9]{8}$ ]]; then
+return 0
+else return 1
+fi
+}
+validate_major() {
+local major="$1"
+if [[ "$major" =~ ^[A-Za-z]+$ ]]; then
+return 0
+else
+return 1
+fi
+}
+while true; do
+echo -n "xuehao:"
+read -r student_id
+student_id=$(echo "$student_id" | xargs)
+if validate_student_id "$student_id"; then
+echo "zhenque: $student_id"
+break
+else
+echo "error"
+read -r -n 1 choice
+echo
+if [[ "$choice" == "q" || "$choice" == "Q" ]]; then
+echo "tuichu"
+exit 0
+fi
+fi
+done
+while true; do
+echo -n "zhuanyeming:"
+read -r major
+major=$(echo "$major" | xargs)
+if validate_major "$major"; then
+echo "zhenque: $major"
+break
+else
+echo "error"
+read -r -n 1 choice
+echo
+if [[ "$choice" == "q" || "$choice" == "Q" ]]; then
+echo "tuichu"
+exit 0
+fi
+fi
+done
+echo "jianchayonghu $student_id shifoucunzai"
+if id "$student_id" &>/dev/null 2>&1; then
+echo "cunzai"
+else
+echo "yobghu $student_id bucunzai"
+echo "chuanjianmingling"
+echo "sudo useradd -m -g $major $student_id"
+echo "or"
+echo "sudo useradd -m -G $major $student_id"
+fi
+T3=$(date '+%Y-%m-%d %H:%M:%S')
+echo "timeT3: $T3"
+read -r -n 1
+echo
+echo "jieshu"
+exit 0
